@@ -43,7 +43,27 @@ class SmallTownTellerTest(unittest.TestCase):
         self.assertEqual(self._jane.first_name, self._bank.customers.get(2).first_name)
         self.assertEqual(self._jane.last_name, self._bank.customers.get(2).last_name)
 
+    def test_bank_add_customer_duplicate_id(self):
+        self._bank.add_customer(self._walter)
 
+        with self.assertRaises(ValueError):
+            self._bank.add_customer(self._john)
+
+    def test_bank_add_account(self):
+        self._bank.add_customer(self._john)
+        self._bank.add_account(self._john_checking)
+
+        self.assertEqual(1, len(self._bank.accounts))
+        self.assertEqual(self._john, self._bank.accounts.get(123).owner)
+
+    def test_bank_add_account_duplicate_id(self):
+        self._bank.add_customer(self._john)
+        self._walter.id = 11
+        self._bank.add_customer(self._walter)
+        self._bank.add_account(self._john_checking)
+
+        with self.assertRaises(ValueError):
+            self._bank.add_account(self._walter_checking)
 
 
 
