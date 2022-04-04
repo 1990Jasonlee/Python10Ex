@@ -31,6 +31,19 @@ class SmallTownTellerTest(unittest.TestCase):
         self.assertEqual(expected_owner, str(self._john_checking.owner))
         self.assertEqual(expected_balance, self._john_checking.balance)
 
+    def test_bank_initialization(self):
+        self.assertEqual(dict(), self._bank.accounts)
+        self.assertEqual(dict(), self._bank.customers)
+
+    def test_bank_add_customer(self):
+        self._bank.add_customer(self._jane)
+
+        self.assertEqual(1, len(self._bank.customers))
+        self.assertEqual(self._jane.id, self._bank.customers.get(2).id)
+        self.assertEqual(self._jane.first_name, self._bank.customers.get(2).first_name)
+        self.assertEqual(self._jane.last_name, self._bank.customers.get(2).last_name)
+
+
 
 
 
